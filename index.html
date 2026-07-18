@@ -1,0 +1,66 @@
+<html>
+<head>
+    <title>Paperview</title>
+    <style type="text/css">
+        body {
+            font-family: sans-serif;
+            font-size: large;
+            margin: 30px;
+        }
+        .ready {
+            border: 1px solid blue;
+            padding: 6px;
+            border-radius: 6px;
+            background: #eef;
+        }
+    </style>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/uglify-js@3.19.3/lib/utils.min.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/uglify-js@3.19.3/lib/ast.min.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/uglify-js@3.19.3/lib/scope.min.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/uglify-js@3.19.3/lib/output.min.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/uglify-js@3.19.3/lib/transform.min.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/uglify-js@3.19.3/lib/parse.min.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/uglify-js@3.19.3/lib/compress.min.js"></script>
+    <script type="text/javascript" src="paperview.js"></script>
+    <script>
+        
+        function CreateLink() {
+
+            // cribbed from bookmarkletify
+            var toplevel_ast = parse(Paperview.toString() + "Paperview();");
+            toplevel_ast.figure_out_scope();
+            var compressor = Compressor();
+            var compressed_ast = toplevel_ast.transform(compressor);
+            compressed_ast.figure_out_scope();
+
+            var url = "javascript: (function () {" + compressed_ast.print_to_string() + "}())";
+            document.getElementById("bookmarkletLink").href = url;
+            document.getElementById("bookmarkletLink").className = "ready";
+        };
+
+        function ClickHelp() {
+            alert("Drag this link to your bookmark bar.");
+            return false;
+        };
+    </script>
+
+</head>
+<body onload="CreateLink();">
+<hgroup>
+  <h1>Paperview</h1>
+  <p>A newspaper like multicolumn reader mode for long form articles on the web.</p>
+</hgroup>
+
+
+<p>Drag this link to your bookmarks bar to install:</p>
+
+<p><strong><a href="#" id="bookmarkletLink" onclick="return ClickHelp();" title="Drag this link to your bookmark bar.">Paperview</a></strong></p>
+
+<p>Now find a web page with a long article. Click the <strong>Paperview</strong> bookmarklet to reformat the page free of distractions. The article will be formatted in narrow columns like a newspaper.</p>
+<p>You can navigate to the next page of the article by pressing the spacebar. To go back, press shift+space. Or, press left/right arrow keys.</p>
+
+<p>Visit the <a href="https://github.com/charsi/paperview">Paperview project page</a> for more information.</p>
+
+</body>
+</html>
+
