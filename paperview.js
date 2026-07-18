@@ -13,12 +13,12 @@ function Paperview() {
     // callback that will replace document content with readable version
     const MakeReadable = () => {   
         
-        var documentCopy = document.cloneNode(true);
-        var article = new Readability(documentCopy).parse();
+        const documentCopy = document.cloneNode(true);
+        const article = new Readability(documentCopy).parse();
         document.title = article.title;
 
         // strip stray styling from the html tag itself
-        var htmlTag = document.getElementsByTagName("html")[0];
+        const htmlTag = document.getElementsByTagName("html")[0];
         htmlTag.removeAttribute("class");
         htmlTag.removeAttribute("style");
 
