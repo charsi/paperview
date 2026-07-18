@@ -25,16 +25,17 @@
     <script>
         
         function CreateLink() {
+            //uflify-js parse()
+            const toplevelAst = parse(`(function (){ ${Paperview.toString()} Paperview(); }())`);
+            toplevelAst.figure_out_scope();
 
-            // cribbed from bookmarkletify
-            var toplevel_ast = parse(Paperview.toString() + "Paperview();");
-            toplevel_ast.figure_out_scope();
-            var compressor = Compressor();
-            var compressed_ast = toplevel_ast.transform(compressor);
-            compressed_ast.figure_out_scope();
+            //uflify-js Compressor()
+            const compressor = Compressor();
+            const compressedAst = toplevelAst.transform(compressor);
+            compressedAst.figure_out_scope();
 
-            var url = "javascript: (function () {" + compressed_ast.print_to_string() + "}())";
-            document.getElementById("bookmarkletLink").href = url;
+            const bookmarkletUrl = `javascript:  ${compressedAst.print_to_string()}`;
+            document.getElementById("bookmarkletLink").href = bookmarkletUrl;
             document.getElementById("bookmarkletLink").className = "ready";
         };
 
