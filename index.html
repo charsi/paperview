@@ -1,4 +1,5 @@
 <html>
+
 <head>
     <title>Paperview</title>
     <style type="text/css">
@@ -7,6 +8,7 @@
             font-size: large;
             margin: 30px;
         }
+
         .ready {
             border: 1px solid blue;
             padding: 6px;
@@ -17,43 +19,50 @@
 
     <script type="text/javascript" src="paperview.js"></script>
 
-    <script type="module"> 
-        import { minify } from "https://esm.sh/terser";
+    <script type="module">
+        import { minify } from "https://esm.sh/terser@5.49.0";
 
-        const minified = await minify(`${ Paperview.toString() } Paperview();`, { mangle: false });
-        const bookmarkletUrl = `javascript: ${ minified.code }`;
+        // minify paperview.js 
+        const minified = await minify(
+            `${Paperview.toString()} Paperview();`, 
+            { mangle: false }
+        );
+        const bookmarkletUrl = `javascript: ${minified.code}`;
 
         // Update button attributes after DOM is loaded
         document.addEventListener("DOMContentLoaded", () => {
-            document.getElementById("bookmarkletLink").href = bookmarkletUrl;
-            
-            document.getElementById("bookmarkletLink").onclick = ()=>{
+            bookmarkletButton = document.getElementById("bookmarkletLink");
+            bookmarkletButton.href = bookmarkletUrl;
+
+            bookmarkletButton.onclick = () => {
                 alert("Drag this link to your bookmark bar.");
                 return false;
             }
 
-            document.getElementById("bookmarkletLink").className = "ready";
+            bookmarkletButton.className = "ready";
         });
     </script>
 </head>
 
 <body>
 
-<hgroup>
-  <h1>Paperview</h1>
-  <p>A newspaper like multicolumn reader mode for long form articles on the web.</p>
-</hgroup>
+    <hgroup>
+        <h1>Paperview</h1>
+        <p>A newspaper like multicolumn reader mode for long form articles on the web.</p>
+    </hgroup>
 
 
-<p>Drag this link to your bookmarks bar to install:</p>
+    <p>Drag this link to your bookmarks bar to install:</p>
 
-<p><strong><a href="#" id="bookmarkletLink" title="Drag this link to your bookmark bar.">Paperview</a></strong></p>
+    <p><strong><a href="#" id="bookmarkletLink" title="Drag this link to your bookmark bar.">Paperview</a></strong></p>
 
-<p>Now find a web page with a long article. Click the <strong>Paperview</strong> bookmarklet to reformat the page free of distractions. The article will be formatted in narrow columns like a newspaper.</p>
-<p>You can navigate to the next page of the article by pressing the spacebar. To go back, press shift+space. Or, press left/right arrow keys.</p>
+    <p>Now find a web page with a long article. Click the <strong>Paperview</strong> bookmarklet to reformat the page
+        free of distractions. The article will be formatted in narrow columns like a newspaper.</p>
+    <p>You can navigate to the next page of the article by pressing the spacebar. To go back, press shift+space. Or,
+        press left/right arrow keys.</p>
 
-<p>Visit the <a href="https://github.com/charsi/paperview">Paperview project page</a> for more information.</p>
+    <p>Visit the <a href="https://github.com/charsi/paperview">Paperview project page</a> for more information.</p>
 
 </body>
-</html>
 
+</html>
