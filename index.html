@@ -31,7 +31,7 @@
 
         // Update button attributes after DOM is loaded
         document.addEventListener("DOMContentLoaded", () => {
-            bookmarkletButton = document.getElementById("bookmarkletLink");
+            const bookmarkletButton = document.getElementById("bookmarkletLink");
             bookmarkletButton.href = bookmarkletUrl;
 
             bookmarkletButton.onclick = () => {
