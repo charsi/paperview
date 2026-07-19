@@ -14,39 +14,31 @@
             background: #eef;
         }
     </style>
-    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/uglify-js@3.19.3/lib/utils.min.js"></script>
-    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/uglify-js@3.19.3/lib/ast.min.js"></script>
-    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/uglify-js@3.19.3/lib/scope.min.js"></script>
-    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/uglify-js@3.19.3/lib/output.min.js"></script>
-    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/uglify-js@3.19.3/lib/transform.min.js"></script>
-    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/uglify-js@3.19.3/lib/parse.min.js"></script>
-    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/uglify-js@3.19.3/lib/compress.min.js"></script>
+
     <script type="text/javascript" src="paperview.js"></script>
-    <script>
-        
-        function CreateLink() {
-            //uflify-js parse()
-            const toplevelAst = parse(`(function (){ ${Paperview.toString()} Paperview(); }())`);
-            toplevelAst.figure_out_scope();
 
-            //uflify-js Compressor()
-            const compressor = Compressor();
-            const compressedAst = toplevelAst.transform(compressor);
-            compressedAst.figure_out_scope();
+    <script type="module"> 
+        import { minify } from "https://esm.sh/terser";
 
-            const bookmarkletUrl = `javascript:  ${compressedAst.print_to_string()}`;
+        const minified = await minify(`${ Paperview.toString() } Paperview();`, { mangle: false });
+        const bookmarkletUrl = `javascript: ${ minified.code }`;
+
+        // Update button attributes after DOM is loaded
+        document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("bookmarkletLink").href = bookmarkletUrl;
+            
+            document.getElementById("bookmarkletLink").onclick = ()=>{
+                alert("Drag this link to your bookmark bar.");
+                return false;
+            }
+
             document.getElementById("bookmarkletLink").className = "ready";
-        };
-
-        function ClickHelp() {
-            alert("Drag this link to your bookmark bar.");
-            return false;
-        };
+        });
     </script>
-
 </head>
-<body onload="CreateLink();">
+
+<body>
+
 <hgroup>
   <h1>Paperview</h1>
   <p>A newspaper like multicolumn reader mode for long form articles on the web.</p>
@@ -55,7 +47,7 @@
 
 <p>Drag this link to your bookmarks bar to install:</p>
 
-<p><strong><a href="#" id="bookmarkletLink" onclick="return ClickHelp();" title="Drag this link to your bookmark bar.">Paperview</a></strong></p>
+<p><strong><a href="#" id="bookmarkletLink" title="Drag this link to your bookmark bar.">Paperview</a></strong></p>
 
 <p>Now find a web page with a long article. Click the <strong>Paperview</strong> bookmarklet to reformat the page free of distractions. The article will be formatted in narrow columns like a newspaper.</p>
 <p>You can navigate to the next page of the article by pressing the spacebar. To go back, press shift+space. Or, press left/right arrow keys.</p>
